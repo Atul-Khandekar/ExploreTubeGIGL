@@ -3,16 +3,16 @@ package com.example.exploretube.adapter
 import androidx.recyclerview.widget.DiffUtil
 import com.example.exploretube.R
 import com.example.exploretube.base.BaseAdapter
-import com.example.exploretube.model.local.Media
+import com.example.exploretube.model.local.Videos
 
-class VerticalAdapter : BaseAdapter<Media>(VerticalDiffUtil()) {
+class VerticalAdapter : BaseAdapter<Videos>(VerticalDiffUtil()) {
 
-    class VerticalDiffUtil : DiffUtil.ItemCallback<Media>() {
-        override fun areItemsTheSame(oldItem: Media, newItem: Media): Boolean {
+    class VerticalDiffUtil : DiffUtil.ItemCallback<Videos>() {
+        override fun areItemsTheSame(oldItem: Videos, newItem: Videos): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Media, newItem: Media): Boolean {
+        override fun areContentsTheSame(oldItem: Videos, newItem: Videos): Boolean {
             return oldItem == newItem
         }
 

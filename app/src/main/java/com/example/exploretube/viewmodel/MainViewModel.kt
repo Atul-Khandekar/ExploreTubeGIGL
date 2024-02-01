@@ -5,7 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.exploretube.base.BaseResponse
-import com.example.exploretube.model.local.Media
+import com.example.exploretube.model.local.Videos
+import com.example.exploretube.model.local.Photos
 import com.example.exploretube.repository.MediaRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,10 +18,10 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(private val mediaRepository: MediaRepository): ViewModel() {
 
-    private val _photos = MutableStateFlow<List<Media>>(emptyList())
+    private val _photos = MutableStateFlow<List<Photos>>(emptyList())
     val photos get() = _photos.asStateFlow()
 
-    private val _videos = MutableStateFlow<List<Media>>(emptyList())
+    private val _videos = MutableStateFlow<List<Videos>>(emptyList())
     val videos get() = _videos.asStateFlow()
 
     private val _isLoading = MutableLiveData(false)
@@ -46,7 +47,7 @@ class MainViewModel @Inject constructor(private val mediaRepository: MediaReposi
                    is BaseResponse.Success -> {
                        response.data.let {photos ->
                            val list = photos?.photos?.map {
-                               Media(it?.id.toString() , it?.src?.medium?:"Unknown")
+                               Photos(it?.id.toString() , it?.src?.medium?:"Unknown")
                            }
                            list?.let {
                                _isLoading.value  = false
@@ -76,7 +77,7 @@ class MainViewModel @Inject constructor(private val mediaRepository: MediaReposi
                     is BaseResponse.Success -> {
                         response.data.let {videos ->
                             val list = videos?.videos?.map {
-                                Media(it?.id.toString() , it?.image.toString())
+                                Videos(it?.id.toString() , it?.image.toString())
                             }
                             list?.let {
                                 _isLoading.value  = false
