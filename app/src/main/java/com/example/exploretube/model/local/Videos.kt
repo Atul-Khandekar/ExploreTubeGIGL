@@ -4,15 +4,18 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "media_table")
+@Entity(tableName = "video_table")
 data class Videos(
     @PrimaryKey(autoGenerate = true)
-    val id: String,
+    val id: Int,
     @ColumnInfo(name = "image_url")
-    val image: String
+    val image: String,
 )
 
+@Entity(tableName = "photo_table")
 data class Photos(
-    val id: String,
-    val image: String
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
+    @ColumnInfo(name = "image_url")
+    val image: String,
 )

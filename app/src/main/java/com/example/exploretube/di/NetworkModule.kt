@@ -1,7 +1,12 @@
 package com.example.exploretube.di
 
+import android.content.Context
+import android.content.SharedPreferences
+import androidx.room.Room
 import com.example.exploretube.constants.Constants
 import com.example.exploretube.interceptor.AuthInterceptor
+import com.example.exploretube.model.db.MediaDataBase
+import com.example.exploretube.model.db.getDataBase
 import com.example.exploretube.repository.MediaRepository
 import com.example.exploretube.service.MediaService
 import com.google.gson.FieldNamingPolicy
@@ -10,6 +15,7 @@ import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -49,6 +55,11 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun providesMediaRepository(mediaService: MediaService) = MediaRepository(mediaService)
+    fun providesMediaRepository(mediaService: MediaService, mediaDataBase: MediaDataBase) =
+        MediaRepository(mediaService, mediaDataBase)
+
+    @Provides
+    @Singleton
+    fun providesMediaDatabase(@ApplicationContext context: Context) = getDataBase(context)
 
 }

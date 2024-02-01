@@ -19,7 +19,7 @@ class VerticalAdapter : BaseAdapter<Videos>(VerticalDiffUtil()) {
     }
 
     override fun getItemViewType(position: Int): Int {
-            return R.layout.item_vertical_rv
+        return R.layout.item_vertical_rv
     }
 
 }

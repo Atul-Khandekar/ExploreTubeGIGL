@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
@@ -22,38 +23,38 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
     private lateinit var _binding: ActivityMainBinding
-    private lateinit var verticalAdapter:VerticalAdapter
+    private lateinit var verticalAdapter: VerticalAdapter
     private lateinit var horizontalAdapter: HorizontalAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
+        _binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setContentView(_binding.root)
         setUpView()
         steUpObservers()
-        setUpSpinner()
-    }
-
-    private fun setUpSpinner() {
 
     }
 
     private fun steUpObservers() {
-        lifecycleScope.launch {
-            viewModel.videos.collectLatest {
-                verticalAdapter.submitList(it)
-            }
-        }
-        lifecycleScope.launch {
-            viewModel.photos.collectLatest {
-                horizontalAdapter.submitList(it)
-            }
+
+        viewModel.getPhotosFromDB().observe(this) {
+            horizontalAdapter.submitList(it)
         }
 
-        viewModel.isLoading.observe(this) {isLoading ->
+        viewModel.getVideosFromDB().observe(this) {
+            verticalAdapter.submitList(it)
+        }
+
+        viewModel.isLoading.observe(this) { isLoading ->
             if (isLoading) {
                 showLoading()
             } else {
                 hideLoading()
+            }
+        }
+
+        viewModel.error.observe(this) { message ->
+            message?.let {
+                Toast.makeText(this, message.toString(), Toast.LENGTH_LONG).show()
             }
         }
 
@@ -71,7 +72,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         _binding.rvHorizontal.apply {
-            layoutManager = LinearLayoutManager(_binding.root.context, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager =
+                LinearLayoutManager(_binding.root.context, LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
             this.adapter = horizontalAdapter
         }
