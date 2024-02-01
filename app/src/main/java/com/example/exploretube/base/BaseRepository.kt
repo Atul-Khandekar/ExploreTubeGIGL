@@ -4,7 +4,6 @@ import com.example.exploretube.utils.ApiError
 import com.google.gson.Gson
 import retrofit2.Response
 
-
 open class BaseRepository {
 
     fun <T> handleResponse(response: Response<T>): BaseResponse<T> {

@@ -31,7 +31,6 @@ abstract class BaseAdapter<T>(diffUtil: DiffUtil.ItemCallback<T>) :
     open inner class BaseViewHolder(private val binding: ViewDataBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-
         fun bind(item: T) {
             setDataForItems(binding, item)
         }
