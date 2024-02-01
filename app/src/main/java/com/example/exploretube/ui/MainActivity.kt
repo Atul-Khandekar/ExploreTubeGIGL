@@ -2,6 +2,7 @@ package com.example.exploretube.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
@@ -29,6 +30,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(_binding.root)
         setUpView()
         steUpObservers()
+        setUpSpinner()
+    }
+
+    private fun setUpSpinner() {
+
     }
 
     private fun steUpObservers() {
@@ -40,6 +46,14 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.photos.collectLatest {
                 horizontalAdapter.submitList(it)
+            }
+        }
+
+        viewModel.isLoading.observe(this) {isLoading ->
+            if (isLoading) {
+                showLoading()
+            } else {
+                hideLoading()
             }
         }
 
@@ -63,4 +77,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun showLoading() {
+        _binding.apply {
+            parentLayout.visibility = View.GONE
+            spinnerLoading.visibility = View.VISIBLE
+        }
+    }
+
+    private fun hideLoading() {
+        _binding.apply {
+            spinnerLoading.visibility = View.GONE
+            parentLayout.visibility = View.VISIBLE
+        }
+    }
 }

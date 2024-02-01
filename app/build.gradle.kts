@@ -49,6 +49,7 @@ android {
 
 dependencies {
     val fragment_version = "1.6.2"
+    val room_version = "2.6.1"
 
 
     implementation("androidx.core:core-ktx:1.12.0")
@@ -71,6 +72,17 @@ dependencies {
 
     implementation("androidx.fragment:fragment-ktx:$fragment_version")
     implementation("com.github.bumptech.glide:glide:4.16.0")
+
+    //room database
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$room_version")
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$room_version")
+
+
 
 }
 kapt {
